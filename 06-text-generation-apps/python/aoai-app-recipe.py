@@ -14,27 +14,27 @@ client = AzureOpenAI(
 
 deployment=os.environ['AZURE_OPENAI_DEPLOYMENT']
 
-no_recipes = input("No of recipes (for example, 5: ")
+no_recipes = input("食谱数量（例如 5： ")
 
-ingredients = input("List of ingredients (for example, chicken, potatoes, and carrots: ")
+ingredients = input("成分列表（例如鸡肉、土豆和胡萝卜：")
 
-filter = input("Filter (for example, vegetarian, vegan, or gluten-free: ")
+filter = input("过滤器（例如素食、严格素食或无麸质：")
 
 # interpolate the number of recipes into the prompt an ingredients
-prompt = f"Show me {no_recipes} recipes for a dish with the following ingredients: {ingredients}. Per recipe, list all the ingredients used, no {filter}: "
+prompt = f"向我显示包含以下成分的菜肴的 {no_recipes} 食谱：{ingredients}。每个食谱，列出所有使用的成分，没有{filter}："
 messages = [{"role": "user", "content": prompt}]
 
 completion = client.chat.completions.create(model=deployment, messages=messages, max_tokens=600, temperature = 0.1)
 
 
 # print response
-print("Recipes:")
+print("食谱:")
 print(completion.choices[0].message.content)
 
 old_prompt_result = completion.choices[0].message.content
-prompt_shopping = "Produce a shopping list, and please don't include ingredients that I already have at home: "
+prompt_shopping = "制作一份购物清单，请不要包含我家里已有的食材："
 
-new_prompt = f"Given ingredients at home {ingredients} and these generated recipes: {old_prompt_result}, {prompt_shopping}"
+new_prompt = f"给定家里的食材 {ingredients} 以及这些生成的食谱：{old_prompt_result}、{prompt_shopping}"
 messages = [{"role": "user", "content": new_prompt}]
 completion = client.chat.completions.create(model=deployment, messages=messages, max_tokens=600, temperature=0)
 

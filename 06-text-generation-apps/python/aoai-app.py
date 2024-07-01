@@ -9,13 +9,13 @@ dotenv.load_dotenv()
 client = AzureOpenAI(
   azure_endpoint = os.environ["AZURE_OPENAI_ENDPOINT"], 
   api_key=os.environ['AZURE_OPENAI_KEY'],  
-  api_version = "0301"
+  api_version = "2023-10-01-preview"
   )
 
 deployment=os.environ['AZURE_OPENAI_DEPLOYMENT']
 
 # add your completion code
-prompt = "Complete the following: Once upon a time there was a"
+prompt = "完成下列任务： 从前有一个"
 messages = [{"role": "user", "content": prompt}]  
 # make completion
 completion = client.chat.completions.create(model=deployment, messages=messages)

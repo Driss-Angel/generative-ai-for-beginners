@@ -2,38 +2,34 @@ from openai import AzureOpenAI
 import os
 import dotenv
 
-# import dotenv
+# 加载dotenv
 dotenv.load_dotenv()
 
-# configure Azure OpenAI service client 
+# 配置Azure OpenAI服务客户端
 client = AzureOpenAI(
-  azure_endpoint = os.environ["AZURE_OPENAI_ENDPOINT"], 
+  azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"], 
   api_key=os.environ['AZURE_OPENAI_KEY'],  
-  api_version = "2023-10-01-preview"
-  )
+  api_version="2023-10-01-preview"
+)
 
 deployment=os.environ['AZURE_OPENAI_DEPLOYMENT']
 
-# add your completion code
-question = input("Ask your questions on python language to your study buddy: ")
+# 添加你的完成代码
+question = input("问你的学习伙伴关于Python语言的问题: ")
 prompt = f"""
-You are an expert on the python language.
+你是Python语言的专家。
 
-Whenever certain questions are asked, you need to provide response in below format.
+每当被问到某些问题时，你需要以以下格式提供回答。
 
-- Concept
-- Example code showing the concept implementation
-- explanation of the example and how the concept is done for the user to understand better.
+- 概念
+- 显示概念实现的示例代码
+- 对示例的解释以及如何实现这个概念，使用户更好地理解。
 
-Provide answer for the question: {question}
+请回答这个问题: {question}
 """
 messages = [{"role": "user", "content": prompt}]  
-# make completion
+# 生成回答
 completion = client.chat.completions.create(model=deployment, messages=messages)
 
-# print response
+# 打印回答
 print(completion.choices[0].message.content)
-
-#  very unhappy _____.
-
-# Once upon a time there was a very unhappy mermaid.
