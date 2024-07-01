@@ -1,0 +1,7 @@
+name: ai-learn
+channels:
+ - defaults
+dependencies:
+- python=3.10.9
+- openai
+- python-dotenv
